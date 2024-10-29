@@ -19,7 +19,7 @@ public class Viselitsa {
 		// |  \|/
 		// |  / \
 
-
+		//Создаём список слов для игры
 		List<String> words = new ArrayList<>(
 				Arrays.asList("буква", "консоль", "пропуск", "сообщение", "человек", "потеря", "константа", "программа",
 				              "вывод", "приветствие", "обучение", "разработка", "ошибка", "строка", "победа", "проигрыш",
@@ -46,11 +46,14 @@ public class Viselitsa {
 		while (play.equals("да"));
 	}
 
-
+	// Основной метод с игрой
 	public static void makeOneGame(String myWord) {
 		Scanner scanner = new Scanner(System.in);
+		// По-умолчанию задаём количество жизней - 7, к которым будет прикреплено отображение виселицы
 		int countLives = 7;
+		// Создаём массив с алфавитом (отображение как на компьютерной клавиатуре)
 		char[] alphabet = "йцукенгшщзхъфывапролджэячсмитьбю".toCharArray();
+		// Создаём слово, которое при отгадывании будет отображаться зашифрованным
 		char[] closedWord = createClosedWord(myWord);
 
 
@@ -62,6 +65,7 @@ public class Viselitsa {
 				System.out.println();
 				System.out.println("Введите строчную букву");
 				letter = scanner.nextLine();
+				// Проверка на правильность ввода буквы с клавиатуры
 				if (letter.equals("")) {
 					System.out.println("Вы ввели некорректное значение. Введите букву заново");
 					isLetterUsedBefore = true;
@@ -80,10 +84,12 @@ public class Viselitsa {
 
 
 			if (wasUpdated) {
+				// Если букву угадали, то отображаем всё необходимое (будут изменения в зашифрованном слове и алфавите)
 				System.out.println("Количество жизней: " + countLives);
 				showViselitsa(countLives);
 				boolean guessedFullWord = isGuessedFullWord(closedWord);
 				if (guessedFullWord) {
+					// Если угадано всё слово
 					System.out.println("Поздравляем! Вы выиграли");
 				}
 				showClosedWord(closedWord);
@@ -94,6 +100,8 @@ public class Viselitsa {
 				}
 			}
 			else {
+				// Если букву не угадали, то отнимаем жизнь и отображаем всё необходимое (будут изменения в количестве жизней,
+				// виселице, алфавите)
 				countLives -= 1;
 				System.out.println("Количество жизней: " + countLives);
 				showViselitsa(countLives);
@@ -101,6 +109,7 @@ public class Viselitsa {
 				updateAlphabet(alphabet, letter);
 				showAlphabet(alphabet);
 				if (countLives == 0) {
+					// Если жизней больше не осталось
 					System.out.println();
 					System.out.println("Игра окончена. Вы проиграли. Загаданное слово - " + myWord);
 				}
@@ -108,7 +117,7 @@ public class Viselitsa {
 		}
 	}
 
-
+	// Проверяем, использовалась ли эта буква ранее
 	public static boolean thisLetterUsedBefore(String letter, char[] alphabet) {
 		for (int i = 0; i < alphabet.length; i++) {
 			if (alphabet[i] == letter.charAt(0)) {
@@ -118,6 +127,7 @@ public class Viselitsa {
 		return true;
 	}
 
+	// Создаём слово для угадывания, отображая его нижними пробелами
 	public static char[] createClosedWord(String myWord) {
 		char[] closedWord = new char[myWord.length()];
 		for (int i = 0; i < closedWord.length; i++) {
@@ -126,6 +136,7 @@ public class Viselitsa {
 		return closedWord;
 	}
 
+	// Показываем зашифрованное загаданное слово
 	public static void showClosedWord(char[] closedWord) {
 		System.out.println();
 		for (int i = 0; i < closedWord.length; i++) {
@@ -133,6 +144,7 @@ public class Viselitsa {
 		}
 	}
 
+	// Обновляем зашифрованное слово, добавляя в него букву, если она угадана пользователем
 	public static boolean updateClosedWord(String myWord, String letter, char[] closedWord) {
 		boolean success = false;
 		for (int i = 0; i < myWord.length(); i++) {
@@ -144,6 +156,7 @@ public class Viselitsa {
 		return success;
 	}
 
+	// Если полное слово угадано, возвращаем true
 	public static boolean isGuessedFullWord(char[] closedWord) {
 		for (int i = 0; i < closedWord.length; i++) {
 			if (closedWord[i] == '_') {
@@ -153,7 +166,7 @@ public class Viselitsa {
 		return true;
 	}
 
-
+	// Показываем алфавит как в раскладке на клавиатуре
 	public static void showAlphabet(char[] alphabet) {
 		System.out.println();
 		for (int i = 0; i < alphabet.length; i++) {
@@ -165,6 +178,7 @@ public class Viselitsa {
 		}
 	}
 
+	// Обновляем алфавит. Если буква угадана, заменяем ее отображение звёздочкой
 	public static void updateAlphabet(char[] alphabet, String letter) {
 		for (int i = 0; i < alphabet.length; i++) {
 			if (alphabet[i] == letter.charAt(0)) {
@@ -173,7 +187,7 @@ public class Viselitsa {
 		}
 	}
 
-
+	// Отображение самой виселицы, в зависимости от оставшихся жизней
 	public static void showViselitsa(int countLives) {
 		if (countLives == 7) {
 			System.out.println("         ____\n" +

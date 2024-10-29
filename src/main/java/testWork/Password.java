@@ -27,10 +27,13 @@ public class Password {
 		Scanner scanner = new Scanner(System.in);
 		int countSymbols = scanner.nextInt();
 
+		// Создаём список, в котором будем хранить пароль
 		List<String> myPassword = new ArrayList<>(countSymbols);
 
+		// Создаём список с символами для генерации пароля
 		String mySymbols = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#%^&*-_+=|\\/:;?.,~";
 
+		// Выбираем из каждой части списка рандомный символ
 		// индексы [36-61]
 		int symbolABCIndex = (int) (Math.random() * (62 - 36)) + 36;
 		// индексы [10-35]
@@ -41,6 +44,8 @@ public class Password {
 		int specialSymbolIndex = (int) (Math.random() * (82 - 62)) + 62;
 		// индексы всей строки [0-81]
 
+		// Обрабатываем обязательные условия на наличие заглавных, строчных букв, цифр и спец.символов
+		// Из списка символов берем рандомный, меняем тип и кладём в список с паролем
 		String firstSymbol = mySymbols.charAt(symbolABCIndex) + "";
 		myPassword.add(firstSymbol);
 		String secondSymbol = mySymbols.charAt(abcSymbolIndex) + "";
@@ -50,11 +55,13 @@ public class Password {
 		String fourthSymbol = mySymbols.charAt(specialSymbolIndex) + "";
 		myPassword.add(fourthSymbol);
 
+		// Заполняем оставшуюся часть списка рандомными символами из всего списка
 		for (int i = 4; i < countSymbols; i++) {
 			String allSymbol = mySymbols.charAt((int) (Math.random() * (82))) + "";
 			myPassword.add(allSymbol);
 		}
 
+		// Перемешиваем элементы списка, чтобы они были в рандомном порядке
 		Collections.shuffle(myPassword);
 
 		System.out.print("Ваш пароль: ");
